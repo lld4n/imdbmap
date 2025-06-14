@@ -1,0 +1,12 @@
+<div class="cell" [tuiHint]="hint">
+  @if (episode().topRated) {
+    <div class="top-rated"></div>
+  }
+  {{ episode().rating }}
+</div>
+
+<ng-template #hint>
+  <h2 class="title">{{ episode().title }}</h2>
+  <img [src]="episode().img" class="image" />
+  <div class="votes">({{ episode().votes }})</div>
+</ng-template>

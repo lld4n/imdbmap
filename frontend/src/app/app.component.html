@@ -1,3 +1,74 @@
+<tui-root>
+  <div class="top">
+    <tui-textfield class="top-input" tuiTextfieldSize="s">
+      <input
+        placeholder="Id, example: tt3032476"
+        [ngModel]="id()"
+        (ngModelChange)="id.set($event)"
+        tuiTextfield
+      />
+    </tui-textfield>
+    <button
+      size="s"
+      tuiButton
+      [loading]="loading()"
+      (click)="submit()"
+      [disabled]="id().length === 0"
+    >
+      Submit
+    </button>
+  </div>
 
-
-<router-outlet />
+  <div class="main">
+    @if (info()) {
+      <div class="info">
+        <h2 class="info-title">{{ info()?.title }}</h2>
+        <img class="info-img" [src]="info()?.poster" alt="" />
+        <div class="info-rating">
+          {{ info()?.rating }}
+          <span class="info-votes">({{ info()?.votes }})</span>
+        </div>
+      </div>
+    }
+    @if (episodes().length > 0) {
+      <div class="table">
+        <div class="table-row">
+          <div class="table-cell"></div>
+          @for (_ of episodes(); track seasonIndex; let seasonIndex = $index) {
+            <div class="table-cell" [tuiHint]="'Season ' + (seasonIndex + 1)">
+              {{ seasonIndex + 1 }}
+            </div>
+          }
+        </div>
+        @for (
+          _ of maxEpisodeSeason();
+          track episodeIndex;
+          let episodeIndex = $index
+        ) {
+          <div class="table-row">
+            <div class="table-cell" [tuiHint]="'Episode ' + (episodeIndex + 1)">
+              {{ episodeIndex + 1 }}
+            </div>
+            @for (
+              season of episodes();
+              track seasonIndex;
+              let seasonIndex = $index
+            ) {
+              @if (season[episodeIndex]) {
+                @let bgColor = background(season[episodeIndex].rating);
+                <app-table-cell
+                  [episode]="season[episodeIndex]"
+                  class="table-cell"
+                  [style.color]="color(bgColor)"
+                  [style.background-color]="bgColor"
+                />
+              } @else {
+                <div class="table-cell table-cell--hidden"></div>
+              }
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</tui-root>
