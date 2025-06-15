@@ -13,7 +13,7 @@ export async function mainSearch(
   }
 
   const data = await Bun.fetch(
-    `https://v3.sg.media-imdb.com/suggestion/x/${q}.json?includeVideos=1`,
+    `https://v3.sg.media-imdb.com/suggestion/x/${q.replaceAll(" ", "%20")}.json?includeVideos=1`,
   );
   const json: ImdbSearch = await data.json();
 
@@ -22,7 +22,7 @@ export async function mainSearch(
   for (const item of json.d) {
     if (item.qid === "tvSeries") {
       info.push({
-        poster: item.i.imageUrl,
+        poster: item?.i?.imageUrl,
         title: item.l,
         id: item.id,
       });
