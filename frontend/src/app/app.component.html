@@ -1,74 +1,124 @@
 <tui-root>
-  <div class="top">
-    <tui-textfield class="top-input" tuiTextfieldSize="s">
-      <input
-        placeholder="Id, example: tt3032476"
-        [ngModel]="id()"
-        (ngModelChange)="id.set($event)"
-        tuiTextfield
-      />
-    </tui-textfield>
-    <button
-      size="s"
-      tuiButton
-      [loading]="loading()"
-      (click)="submit()"
-      [disabled]="id().length === 0"
-    >
-      Submit
-    </button>
-  </div>
+    <div class="top">
+        <tui-textfield
+            tuiTextfieldSize="s"
+            class="top-input"
+        >
+            <input
+                placeholder="Id, example: tt3032476"
+                tuiTextfield
+                [ngModel]="id()"
+                (ngModelChange)="id.set($event)"
+            />
+        </tui-textfield>
+        <button
+            size="s"
+            tuiButton
+            type="button"
+            [disabled]="id().length === 0"
+            [loading]="loading()"
+            (click)="submit()"
+        >
+            Submit
+        </button>
+        <button
+            size="s"
+            tuiButton
+            type="button"
+            (click)="openCache()"
+        >
+            Cache
+        </button>
+    </div>
 
-  <div class="main">
-    @if (info()) {
-      <div class="info">
-        <h2 class="info-title">{{ info()?.title }}</h2>
-        <img class="info-img" [src]="info()?.poster" alt="" />
-        <div class="info-rating">
-          {{ info()?.rating }}
-          <span class="info-votes">({{ info()?.votes }})</span>
-        </div>
-      </div>
-    }
-    @if (episodes().length > 0) {
-      <div class="table">
-        <div class="table-row">
-          <div class="table-cell"></div>
-          @for (_ of episodes(); track seasonIndex; let seasonIndex = $index) {
-            <div class="table-cell" [tuiHint]="'Season ' + (seasonIndex + 1)">
-              {{ seasonIndex + 1 }}
-            </div>
-          }
-        </div>
-        @for (
-          _ of maxEpisodeSeason();
-          track episodeIndex;
-          let episodeIndex = $index
-        ) {
-          <div class="table-row">
-            <div class="table-cell" [tuiHint]="'Episode ' + (episodeIndex + 1)">
-              {{ episodeIndex + 1 }}
-            </div>
-            @for (
-              season of episodes();
-              track seasonIndex;
-              let seasonIndex = $index
-            ) {
-              @if (season[episodeIndex]) {
-                @let bgColor = background(season[episodeIndex].rating);
-                <app-table-cell
-                  [episode]="season[episodeIndex]"
-                  class="table-cell"
-                  [style.color]="color(bgColor)"
-                  [style.background-color]="bgColor"
+    <div class="main">
+        @if (info()) {
+            <div class="info">
+                <h2 class="info-title">{{ info()?.title }}</h2>
+                <img
+                    alt=""
+                    class="info-img"
+                    [src]="info()?.poster"
                 />
-              } @else {
-                <div class="table-cell table-cell--hidden"></div>
-              }
-            }
-          </div>
+                <div class="info-rating">
+                    {{ info()?.rating }}
+                    <span class="info-votes">({{ info()?.votes }})</span>
+                </div>
+                <div class="info-votes">created by lldan</div>
+            </div>
         }
-      </div>
-    }
-  </div>
+        @if (episodes().length > 0) {
+            <div class="table">
+                <div class="table-row">
+                    <div class="table-cell"></div>
+                    @for (_ of episodes(); track seasonIndex; let seasonIndex = $index) {
+                        <div
+                            class="table-cell"
+                            [tuiHint]="'Season ' + (seasonIndex + 1)"
+                        >
+                            {{ seasonIndex + 1 }}
+                        </div>
+                    }
+                </div>
+                @for (_ of maxEpisodeSeason(); track episodeIndex; let episodeIndex = $index) {
+                    <div class="table-row">
+                        <div
+                            class="table-cell"
+                            [tuiHint]="'Episode ' + (episodeIndex + 1)"
+                        >
+                            {{ episodeIndex + 1 }}
+                        </div>
+                        @for (season of episodes(); track seasonIndex; let seasonIndex = $index) {
+                            @if (season[episodeIndex]) {
+                                @let bgColor = background(season[episodeIndex].rating);
+                                <app-table-cell
+                                    class="table-cell"
+                                    [episode]="season[episodeIndex]"
+                                    [style.background-color]="bgColor"
+                                    [style.color]="color(bgColor)"
+                                />
+                            } @else {
+                                <div class="table-cell table-cell--hidden"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <tui-drawer
+        *tuiPopup="cacheDrawer()"
+        direction="left"
+        class="cache-drawer"
+        [overlay]="true"
+        (click.self)="cacheDrawer.set(false)"
+    >
+        <header class="cache-header">
+            <h2 tuiHeader>
+                <div tuiTitle>Cache</div>
+                <div tuiAccessories>
+                    <button
+                        tuiButton
+                        type="button"
+                        (click)="cacheDrawer.set(false)"
+                    >
+                        Close
+                    </button>
+                </div>
+            </h2>
+        </header>
+        @for (item of cache(); track $index) {
+            <label
+                tuiCell
+                (click)="openCachedItem(item)"
+            >
+                <tui-avatar [src]="item.info.poster" />
+                <div tuiTitle>
+                    {{ item.info.title }}
+                    <div tuiSubtitle>{{ item.id }}</div>
+                </div>
+            </label>
+        }
+    </tui-drawer>
 </tui-root>

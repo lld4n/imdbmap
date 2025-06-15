@@ -1,6 +1,7 @@
 import { JSDOM } from "jsdom";
 import type { Episode, EpisodeCache } from "./models.ts";
 import { getInfo } from "./info.ts";
+import { isValidCache } from "./is-valid-cache.ts";
 
 export async function mainEpisodes(req: Bun.BunRequest<"/api/episodes">) {
   const url = new URL(req.url);
@@ -31,14 +32,8 @@ async function getAllEpisodes(id: string): Promise<EpisodeCache> {
 
   if (isCached) {
     const data: EpisodeCache = await Bun.file(cachePath).json();
-    const now = new Date().getTime();
 
-    if (!data.created) {
-      console.log(`USE PERMANENT CACHED ID ${id}`);
-      return data;
-    }
-
-    if (now - data.created < 30 * 24 * 60 * 60 * 1000) {
+    if (isValidCache(data.created)) {
       console.log(`USE CACHED ID ${id}`);
       return data;
     }

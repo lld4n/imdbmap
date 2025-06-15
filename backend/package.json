@@ -8,7 +8,8 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/jsdom": "^21.1.7"
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^24.0.1"
   },
   "peerDependencies": {
     "typescript": "^5"

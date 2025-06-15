@@ -1,0 +1,3 @@
+{
+    "extends": ["@taiga-ui/stylelint-config/taiga"]
+}

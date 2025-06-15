@@ -1,4 +1,5 @@
 import { mainEpisodes } from "./src/episodes.ts";
+import { mainCache } from "./src/cache.ts";
 
 // make TypeScript happy
 declare global {
@@ -16,6 +17,7 @@ const server = Bun.serve({
   idleTimeout: 255,
   routes: {
     "/api/episodes": (req) => mainEpisodes(req),
+    "/api/cache": () => mainCache(),
   },
 });
 

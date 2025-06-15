@@ -1,13 +1,28 @@
-<div class="cell" [tuiHint]="hint">
-  @if (episode().topRated) {
-    <div class="cell-top"></div>
-  }
+<div
+    class="cell"
+    [tuiHint]="hint"
+>
+    @if (episode().topRated) {
+        <div class="cell-top"></div>
+    }
 
-  {{ episode().rating }}
+    {{ episode().rating }}
 </div>
 
 <ng-template #hint>
-  <h2 class="title">{{ episode().title }}</h2>
-  <img [src]="episode().img" class="image" />
-  <div class="votes">({{ episode().votes }})</div>
+    @if (episode().topRated) {
+        <tui-chip
+            appearance="accent"
+            size="xxs"
+        >
+            Top-Rated
+        </tui-chip>
+    }
+    <h2 class="title">{{ episode().title }}</h2>
+    <img
+        alt=""
+        class="image"
+        [src]="episode().img"
+    />
+    <div class="votes">({{ episode().votes }})</div>
 </ng-template>
