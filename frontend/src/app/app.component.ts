@@ -23,6 +23,7 @@ import {interpolateRdYlGn} from 'd3-scale-chromatic';
 
 import type {Episode, EpisodeInfo, EpisodeResponse} from '../models/episode';
 import {TableCellComponent} from './table-cell/table-cell.component';
+import {SearchComponent} from './search/search.component';
 
 @Component({
     selector: 'app-root',
@@ -40,6 +41,7 @@ import {TableCellComponent} from './table-cell/table-cell.component';
         TuiTitle,
         TuiCell,
         TuiAvatar,
+        SearchComponent,
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.less',

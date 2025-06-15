@@ -1,16 +1,10 @@
 <tui-root>
     <div class="top">
-        <tui-textfield
-            tuiTextfieldSize="s"
-            class="top-input"
-        >
-            <input
-                placeholder="Id, example: tt3032476"
-                tuiTextfield
-                [ngModel]="id()"
-                (ngModelChange)="id.set($event)"
-            />
-        </tui-textfield>
+        <app-search
+            [id]="id()"
+            (idChange)="id.set($event)"
+            (submit)="submit()"
+        />
         <button
             size="s"
             tuiButton

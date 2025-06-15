@@ -7,6 +7,7 @@ export interface Episode {
 }
 
 export interface EpisodeInfo {
+    id?: string;
     title?: string;
     rating?: string;
     poster?: string;

@@ -22,4 +22,4 @@ bun start
 
 ### Open http://localhost:4200
 
-### Set to input id of tv series (ex: tt0773262)
+### Set to input id or name of tv series (ex: tt0773262 or house)

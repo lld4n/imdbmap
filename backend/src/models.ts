@@ -7,6 +7,7 @@ export interface Episode {
 }
 
 export interface EpisodeInfo {
+  id?: string;
   title?: string;
   rating?: string;
   poster?: string;
@@ -18,4 +19,15 @@ export interface EpisodeCache {
   created?: number;
   info: EpisodeInfo;
   episodes: Episode[][];
+}
+
+export interface ImdbSearch {
+  d: {
+    i: {
+      imageUrl: string;
+    };
+    id: string;
+    l: string;
+    qid?: string;
+  }[];
 }

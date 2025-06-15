@@ -1,0 +1,31 @@
+<tui-textfield
+    tuiTextfieldSize="s"
+    class="search"
+>
+    <input
+        placeholder="id or name, example: tt3032476 or house"
+        tuiTextfield
+        [ngModel]="id()"
+        (ngModelChange)="idChange.emit($event)"
+    />
+    @if (loading()) {
+        <tui-loader />
+    }
+</tui-textfield>
+
+@if (data().length > 0) {
+    <div class="search-popup">
+        @for (item of data(); track $index) {
+            <label
+                tuiCell
+                (click)="openItem(item)"
+            >
+                <tui-avatar [src]="item.poster" />
+                <div tuiTitle>
+                    {{ item.title }}
+                    <div tuiSubtitle>{{ item.id }}</div>
+                </div>
+            </label>
+        }
+    </div>
+}

@@ -1,5 +1,6 @@
 import { mainEpisodes } from "./src/episodes.ts";
 import { mainCache } from "./src/cache.ts";
+import { mainSearch } from "./src/search.ts";
 
 // make TypeScript happy
 declare global {
@@ -18,6 +19,7 @@ const server = Bun.serve({
   routes: {
     "/api/episodes": (req) => mainEpisodes(req),
     "/api/cache": () => mainCache(),
+    "/api/search": (req) => mainSearch(req),
   },
 });
 
